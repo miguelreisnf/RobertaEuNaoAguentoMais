@@ -3,13 +3,13 @@ import {View, Text} from 'react-native'
 import { conta } from './Debito';
 
 export default function ExtratoEspecial(){
-    const [extratoDeposito, setExtratoDeposito] = useState([]);
-    const [extratoSaque, setExtratoSaque] = useState([]);
+    const [extratoDeposito, setExtratoDeposito] = useState(conta.extratoDepositoEspecial());
+    const [extratoSaque, setExtratoSaque] = useState(conta.extratoSaqueEspecial());
     return(
         <View>
             <Text>Extrato Especial, aqui você vê seus saques e depósitos organizados e ordenados</Text>
             <Text>Depósitos:</Text>
-            <br>{extratoDeposito}</br>
+            <Text>{extratoDeposito}</Text>
             <Text></Text>
             <br></br>
             <Text>Saques:</Text>

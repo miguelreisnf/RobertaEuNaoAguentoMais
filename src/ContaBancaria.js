@@ -4,10 +4,16 @@ export default class ContaBancaria{
     extratoSaque = [];
     saldo = 0;
     chequeEspecial = 2640;
+    percentualPoupanca = 0;
+    valorPoupado = 0;
 
     getSaldo(){
-        return this.saldo;
+        return String(this.saldo);
     }
+    getValorPoupado(){
+        return this.valorPoupado;
+    }
+
     debitar(debito){
         let erro = "";
         if(this.saldo - debito < 0 && this.saldo - debito < -this.chequeEspecial){
@@ -33,6 +39,11 @@ export default class ContaBancaria{
     }
 
     depositar(deposito){
+        if(this.percentualPoupanca != 0 && this.chequeEspecial == 2640){
+            this.saldo += deposito * (100 - this.percentualPoupanca)/100;
+            this.valorPoupado = this.valorPoupado + deposito * this.percentualPoupanca/100;
+            return this.saldo;
+        }
         this.saldo += deposito;
         this.extrato.push({operacao:"+", valor:deposito});
         this.extratoDeposito.push({operacao:"+", valor:deposito})
@@ -44,9 +55,9 @@ export default class ContaBancaria{
         let result = "";
         for(let i = 0; i < this.extrato.length; i++){
             if(!this.extrato[i].chequeEspecial){
-                result += this.extrato[i].operacao + " " + this.extrato[i].valor;
+                result += "Operação: " + this.extrato[i].operacao + "  Valor: " + this.extrato[i].valor;
             } else {
-                result += this.extrato[i].operacao + " " + this.extrato[i].valor  + " " + this.extrato[i].chequeEspecial;
+                result += "Operação: " + this.extrato[i].operacao + "  Valor: " + this.extrato[i].valor  + " Chque Especial:" + this.extrato[i].chequeEspecial;
             }
             result += "\n";
         }
@@ -57,8 +68,8 @@ export default class ContaBancaria{
         let result = "";
         let extratoDepositoOrdenado = [...this.extratoDeposito];
         for(let i = 0; i < this.extratoDeposito.length; i++){
-            for (let j = 0; j < this.extratoDeposito.length - i- 1; j++) {
-                if (extratoDepositoOrdenado[j].valor > extratoDepositoOrdenado[j + 1].valor) {
+            for (let j = 0; j < this.extratoDeposito.length - i - 1; j++) {
+                if (extratoDepositoOrdenado[j].valor < extratoDepositoOrdenado[j + 1].valor) {
                     [extratoDepositoOrdenado[j], extratoDepositoOrdenado[j + 1]] = [extratoDepositoOrdenado[j + 1], extratoDepositoOrdenado[j]];
                 }
             }
@@ -67,6 +78,23 @@ export default class ContaBancaria{
         for (let i = 0; i < this.extratoDeposito.length; i++) {
             result += `Operação: ${extratoDepositoOrdenado[i].operacao}, Valor: ${extratoDepositoOrdenado[i].valor}\n`;
         }
+        return result;
+    }
+
+    extratoSaqueEspecial(){
+        let result = "";
+        let extratoSaqueOrdenado = [...this.extratoSaque];
+        for(let i = 0; i < this.extratoSaque.length; i++){
+            for (let j = 0; j < this.extratoSaque.length - i - 1; j++) {
+                if (extratoSaqueOrdenado[j].valor < extratoSaqueOrdenado[j + 1].valor) {
+                    [extratoSaqueOrdenado[j], extratoSaqueOrdenado[j + 1]] = [extratoSaqueOrdenado[j + 1], extratoSaqueOrdenado[j]];
+                }
+            }
+        }
+        for (let i = 0; i < this.extratoSaque.length; i++) {
+            result += `Operação: ${extratoSaqueOrdenado[i].operacao}, Valor: ${extratoSaqueOrdenado[i].valor}\n`;
+        }
+        return result;
     }
 
 }
