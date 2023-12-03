@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {View, Text, Image, StyleSheet} from 'react-native'
-import { conta } from './Debito';
+import { conta } from '../../App';
 export default function ChequeEspecial(){
     const [chequeEspecial, setChequeEspecial] = useState(conta.chequeEspecial);
     return(

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {View, Text, TextInput, Button, Image, StyleSheet} from 'react-native'
-import { conta } from './Debito';
+import { conta } from '../../App';
 export default function Deposito(){
     const[deposito, setDeposito] = useState('');
     const[saldo, setSaldo] = useState('');

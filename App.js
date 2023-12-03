@@ -10,6 +10,10 @@ import Extrato from './src/telas/Extrato'
 import ExtratoEspecial from './src/telas/ExtratoEspecial'
 import Poupanca from './src/telas/Poupanca'
 import MarcoPolo from './src/telas/MarcoPolo'
+import ContaBancaria from './src/ContaBancaria';
+
+let conta = new ContaBancaria();
+export { conta };
 
 const Stack = createStackNavigator();
 

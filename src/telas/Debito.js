@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {View, Text, TextInput, Button, Image, StyleSheet} from 'react-native'
-import ContaBancaria from '../ContaBancaria'
-let conta = new ContaBancaria();
+import { conta } from '../../App';
 export { conta };
 export default function Debito(){
     const[saque,setSaque] = useState();

@@ -1,13 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { conta } from './Debito';
+import { conta } from '../../App';
 
 export default function Principal({navigation}) {
   const [saldo, setSaldo] = useState(conta.getSaldo());
   const [cliques1, setCliques1] = useState(0);
   const [cliques2, setCliques2] = useState(0)
   const [link, setLink] = useState(null)
+
+  function atualizarSaldo(){
+    setSaldo(conta.getSaldo());
+  }
 
   function clicar1(){
     let novoClique = cliques1 + 1;
@@ -41,6 +45,8 @@ export default function Principal({navigation}) {
         </TouchableOpacity>
         <br></br>
         <Text>Seu saldo: {saldo}</Text>
+        <br></br>
+        <Button title="Atualizar saldo" onPress={atualizarSaldo}></Button>
         <br></br>
         <Button title="Depositar" onPress={()=> navigation.navigate('Deposito')} style={styles.button}></Button>
         <br></br>

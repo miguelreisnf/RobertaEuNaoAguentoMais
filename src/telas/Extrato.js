@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {View, Text, Image, StyleSheet} from 'react-native'
 import ContaBancaria from '../ContaBancaria';
-import { conta } from './Debito';
+import { conta } from '../../App';
 
 export default function Extrato(){
     const [extrato, setExtrato] = useState(conta.buscarExtrato());

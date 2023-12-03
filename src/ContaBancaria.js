@@ -14,7 +14,7 @@ export default class ContaBancaria{
         return this.valorPoupado;
     }
 
-    
+
     debitar(debito){
         let erro = "";
         if(this.saldo - debito < 0 && this.saldo - debito < -this.chequeEspecial){
@@ -39,10 +39,8 @@ export default class ContaBancaria{
     }
 
     depositar(deposito){
-        let aux = this.saldo;
         //Se saldo menor que 0 e saldo + deposito forem menores que o 2640 - cheque especial
         if(this.saldo < 0 && this.saldo + deposito < (2640 - this.chequeEspecial)){
-            console.log("misericórdia");
             this.saldo += deposito;
             this.chequeEspecial += deposito;
             if(this.chequeEspecial > 2640){
@@ -57,7 +55,6 @@ export default class ContaBancaria{
         }
         //Se saldo menor que 0 e saldo + deposito forem maiores que o 2640 - cheque especial
         if(this.saldo < 0 && this.saldo + deposito >= (2640 - this.chequeEspecial)){
-            console.log("inferno");
             this.chequeEspecial = 2640;
             this.saldo += deposito;
             this.extrato.push({operacao:"+", valor:deposito});
@@ -72,7 +69,6 @@ export default class ContaBancaria{
             return this.saldo;
         }
         //Se tudo ocorrer normalmente
-        console.log("bbbb")
         this.saldo += deposito;
         this.extrato.push({operacao:"+", valor:deposito});
         this.extratoDeposito.push({operacao:"+", valor:deposito})
@@ -95,33 +91,31 @@ export default class ContaBancaria{
 
     extratoDepositoEspecial(){
         let result = "";
-        let extratoDepositoOrdenado = [...this.extratoDeposito];
         for(let i = 0; i < this.extratoDeposito.length; i++){
             for (let j = 0; j < this.extratoDeposito.length - i - 1; j++) {
-                if (extratoDepositoOrdenado[j].valor < extratoDepositoOrdenado[j + 1].valor) {
-                    [extratoDepositoOrdenado[j], extratoDepositoOrdenado[j + 1]] = [extratoDepositoOrdenado[j + 1], extratoDepositoOrdenado[j]];
+                if (this.extratoDeposito[j].valor < this.extratoDeposito[j + 1].valor) {
+                    [this.extratoDeposito[j], this.extratoDeposito[j + 1]] = [this.extratoDeposito[j + 1], this.extratoDeposito[j]];
                 }
             }
         }
 
         for (let i = 0; i < this.extratoDeposito.length; i++) {
-            result += `Operação: ${extratoDepositoOrdenado[i].operacao}, Valor: ${extratoDepositoOrdenado[i].valor}\n`;
+            result += `Operação: ${this.extratoDeposito[i].operacao}, Valor: ${this.extratoDeposito[i].valor}\n`;
         }
         return result;
     }
 
     extratoSaqueEspecial(){
         let result = "";
-        let extratoSaqueOrdenado = [...this.extratoSaque];
         for(let i = 0; i < this.extratoSaque.length; i++){
             for (let j = 0; j < this.extratoSaque.length - i - 1; j++) {
-                if (extratoSaqueOrdenado[j].valor < extratoSaqueOrdenado[j + 1].valor) {
-                    [extratoSaqueOrdenado[j], extratoSaqueOrdenado[j + 1]] = [extratoSaqueOrdenado[j + 1], extratoSaqueOrdenado[j]];
+                if (this.extratoSaque[j].valor < this.extratoSaque[j + 1].valor) {
+                    [this.extratoSaque[j], this.extratoSaque[j + 1]] = [this.extratoSaque[j + 1], this.extratoSaque[j]];
                 }
             }
         }
         for (let i = 0; i < this.extratoSaque.length; i++) {
-            result += `Operação: ${extratoSaqueOrdenado[i].operacao}, Valor: ${extratoSaqueOrdenado[i].valor}\n`;
+            result += `Operação: ${this.extratoSaque[i].operacao}, Valor: ${this.extratoSaque[i].valor}\n`;
         }
         return result;
     }
