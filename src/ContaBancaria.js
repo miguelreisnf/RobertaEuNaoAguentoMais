@@ -21,11 +21,11 @@ export default class ContaBancaria{
             return { erro:erro };
         }
         else if(this.saldo - debito < 0 && this.saldo - debito <= this.chequeEspecial){
-            let aux = this.saldo - debito;
+            let valorTotalUsadoDoChequeEspecial = this.saldo - debito;
             this.chequeEspecial -= debito;
-            this.saldo = -(2640 - this.chequeEspecial);
-            this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais do cheque especial`});
-            this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais do cheque especial`});
+            this.saldo -= debito;
+            this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${(debito)} reais do cheque especial`});
+            this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${(debito)} reais do cheque especial`});
             console.log(this.extrato);
             console.log(this.saldo);
             return { saldo:this.saldo };
@@ -39,11 +39,23 @@ export default class ContaBancaria{
     }
 
     depositar(deposito){
+        let aux = this.saldo;
+        if(aux < 0 && this.saldo + deposito >= (2640 - this.chequeEspecial)){
+            console.log("inferno");
+            this.chequeEspecial = 2640;
+            this.saldo = 99999999999;
+            this.extrato.push({operacao:"+", valor:deposito});
+            this.extratoDeposito.push({operacao:"+", valor:deposito})
+            return this.saldo;
+        } 
+        
         if(this.percentualPoupanca != 0 && this.chequeEspecial == 2640){
+            console.log("aaa")
             this.saldo += deposito * (100 - this.percentualPoupanca)/100;
             this.valorPoupado = this.valorPoupado + deposito * this.percentualPoupanca/100;
             return this.saldo;
         }
+        console.log("bbbb")
         this.saldo += deposito;
         this.extrato.push({operacao:"+", valor:deposito});
         this.extratoDeposito.push({operacao:"+", valor:deposito})
