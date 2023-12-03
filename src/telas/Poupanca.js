@@ -7,6 +7,15 @@ export default function Poupanca(){
     const [feedback, setFeedback] = useState();
     const [valorPoupado, setValorPoupado] = useState(conta.getValorPoupado());
     function enviar() {
+        let n = Number(percentual);
+        if(n > 100){
+            setFeedback("Você não pode salvar mais do que 100% dos seus depósitos");
+            return;
+        }
+        if(isNaN(percentual)){
+            setFeedback("Formato inválido");
+            return;
+        }
         conta.percentualPoupanca = percentual;
         setFeedback("O percentual enviado é " + conta.percentualPoupanca + "%");
     }

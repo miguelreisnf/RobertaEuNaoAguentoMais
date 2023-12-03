@@ -14,6 +14,7 @@ export default class ContaBancaria{
         return this.valorPoupado;
     }
 
+    
     debitar(debito){
         let erro = "";
         if(this.saldo - debito < 0 && this.saldo - debito < -this.chequeEspecial){
@@ -21,7 +22,6 @@ export default class ContaBancaria{
             return { erro:erro };
         }
         else if(this.saldo - debito < 0 && this.saldo - debito <= this.chequeEspecial){
-            let valorTotalUsadoDoChequeEspecial = this.saldo - debito;
             this.chequeEspecial -= (debito - this.saldo);
             this.saldo -= debito;
             this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado`});
