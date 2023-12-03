@@ -15,7 +15,7 @@ export default class ContaBancaria{
         }
         else if(this.saldo - debito < 0 && this.saldo - debito <= this.chequeEspecial){
             let aux = this.saldo - debito;
-            this.chequeEspecial = this.chequeEspecial + aux;
+            this.chequeEspecial -= debito;
             this.saldo = -(2640 - this.chequeEspecial);
             this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais`});
             this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais`});
@@ -40,7 +40,10 @@ export default class ContaBancaria{
     }
 
     extratoEspecial(){
-        
+        for(let i = 0; i < this.extratoDeposito.length; i++){
+            let aux = this.extratoDeposito[i];
+
+        }
     }
 
 }

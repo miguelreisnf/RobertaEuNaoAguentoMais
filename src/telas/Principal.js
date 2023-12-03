@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import ContaBancaria from '../ContaBancaria';
 export default function Principal({navigation}) {
   const [saldo, setSaldo] = useState(0);
   return (
