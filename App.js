@@ -9,6 +9,7 @@ import Deposito from './src/telas/Deposito'
 import Extrato from './src/telas/Extrato'
 import ExtratoEspecial from './src/telas/ExtratoEspecial'
 import Poupanca from './src/telas/Poupanca'
+import MarcoPolo from './src/telas/MarcoPolo'
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,10 @@ export default function App() {
         <Stack.Screen
           name='Poupanca'
           component={Poupanca}
+        />
+        <Stack.Screen
+          name='MarcoPolo'
+          component={MarcoPolo}
         />
       </Stack.Navigator>
     </NavigationContainer>
