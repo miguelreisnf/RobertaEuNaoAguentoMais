@@ -4,11 +4,10 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { conta } from './Debito';
 
 export default function Principal({navigation}) {
-  const [saldo, setSaldo] = useState(conta.getSaldo());
   return (
     <View style={styles.container}>
       <br></br>
-      <Text>Seu saldo: {saldo}</Text>
+      <Text>Seu saldo: {conta.getSaldo()}</Text>
       <br></br>
       <Button title="Depositar" onPress={()=> navigation.navigate('Deposito')} style={styles.button}></Button>
       <br></br>

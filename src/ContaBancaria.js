@@ -22,10 +22,10 @@ export default class ContaBancaria{
         }
         else if(this.saldo - debito < 0 && this.saldo - debito <= this.chequeEspecial){
             let valorTotalUsadoDoChequeEspecial = this.saldo - debito;
-            this.chequeEspecial -= debito;
+            this.chequeEspecial -= (debito - this.saldo);
             this.saldo -= debito;
-            this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${(debito)} reais do cheque especial`});
-            this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${(debito)} reais do cheque especial`});
+            this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado`});
+            this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado`});
             console.log(this.extrato);
             console.log(this.saldo);
             return { saldo:this.saldo };
@@ -33,28 +33,45 @@ export default class ContaBancaria{
         this.saldo -= debito;
         console.log(this.saldo);
         this.extrato.push({operacao: "-", valor:debito});
-        this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:"foi usado do cheque especial"});
+        this.extratoSaque.push({operacao: "-", valor:debito});
         console.log(this.extrato);
         return { saldo:this.saldo } ;
     }
 
     depositar(deposito){
         let aux = this.saldo;
-        if(aux < 0 && this.saldo + deposito >= (2640 - this.chequeEspecial)){
+        //Se saldo menor que 0 e saldo + deposito forem menores que o 2640 - cheque especial
+        if(this.saldo < 0 && this.saldo + deposito < (2640 - this.chequeEspecial)){
+            console.log("misericórdia");
+            this.saldo += deposito;
+            this.chequeEspecial += deposito;
+            if(this.chequeEspecial > 2640){
+                this.chequeEspecial = 2640;
+                this.extrato.push({operacao:"+", valor:deposito});
+                this.extratoDeposito.push({operacao:"+", valor:deposito})
+                return this.saldo;
+            }
+            this.extrato.push({operacao:"+", valor:deposito});
+            this.extratoDeposito.push({operacao:"+", valor:deposito})
+            return this.saldo;
+        }
+        //Se saldo menor que 0 e saldo + deposito forem maiores que o 2640 - cheque especial
+        if(this.saldo < 0 && this.saldo + deposito >= (2640 - this.chequeEspecial)){
             console.log("inferno");
             this.chequeEspecial = 2640;
-            this.saldo = 99999999999;
+            this.saldo += deposito;
             this.extrato.push({operacao:"+", valor:deposito});
             this.extratoDeposito.push({operacao:"+", valor:deposito})
             return this.saldo;
         } 
-        
+        //Se eu setei um valor percentual de poupança e o chefe especial não foi usado
         if(this.percentualPoupanca != 0 && this.chequeEspecial == 2640){
             console.log("aaa")
             this.saldo += deposito * (100 - this.percentualPoupanca)/100;
             this.valorPoupado = this.valorPoupado + deposito * this.percentualPoupanca/100;
             return this.saldo;
         }
+        //Se tudo ocorrer normalmente
         console.log("bbbb")
         this.saldo += deposito;
         this.extrato.push({operacao:"+", valor:deposito});
@@ -69,7 +86,7 @@ export default class ContaBancaria{
             if(!this.extrato[i].chequeEspecial){
                 result += "Operação: " + this.extrato[i].operacao + "  Valor: " + this.extrato[i].valor;
             } else {
-                result += "Operação: " + this.extrato[i].operacao + "  Valor: " + this.extrato[i].valor  + " Chque Especial:" + this.extrato[i].chequeEspecial;
+                result += "Operação: " + this.extrato[i].operacao + "  Valor: " + this.extrato[i].valor  + " Cheque Especial:" + this.extrato[i].chequeEspecial;
             }
             result += "\n";
         }
