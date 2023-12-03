@@ -2,15 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import ContaBancaria from '../ContaBancaria';
-
 export default function Principal({navigation}) {
-  let conta = new ContaBancaria
-
-
+  const [saldo, setSaldo] = useState(0);
   return (
     <View style={styles.container}>
       <br></br>
-      <Text>Seu saldo: {conta.saldoConta}</Text>
+      <Text>Seu saldo: {saldo}</Text>
       <br></br>
       <Button title="Depositar" onPress={()=> navigation.navigate('Deposito')} style={styles.button}></Button>
       <br></br>
@@ -18,9 +15,9 @@ export default function Principal({navigation}) {
       <br></br>
       <Button title="Extrato" onPress={()=> navigation.navigate('Extrato')} style={styles.button}></Button>
       <br></br>
-      <Button title="Extrato Especial" onPress={()=> navigation.navigate('ExtratoEspecial')} style={styles.button}></Button>
+      <Button title="Extrato Especial" onPress={()=> navigation.navigate('Extrato Especial')} style={styles.button}></Button>
       <br></br>
-      <Button title="Cheque Especial" onPress={()=> navigation.navigate('ChequeEspecial')} style={styles.button}></Button>
+      <Button title="Cheque Especial" onPress={()=> navigation.navigate('Cheque Especial')} style={styles.button}></Button>
       <br></br>
       <Button title="Poupança" onPress={()=> navigation.navigate('Poupanca')} style={styles.button}></Button>
       <StatusBar style="auto" />

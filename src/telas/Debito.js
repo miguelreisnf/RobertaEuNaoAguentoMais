@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import {View, Text, TextInput, Button} from 'react-native'
 import ContaBancaria from '../ContaBancaria'
+let conta = new ContaBancaria();
 
 export default function Debito(){
-    const[saque,setSaque] = useState('')
-    const[saldo, setSaldo] = useState('')
+    const[saque,setSaque] = useState();
+    const[saldo, setSaldo] = useState();
+    const[aviso, setAviso] = useState('');
 
-    let conta = new ContaBancaria
-
-    function deb(){
-        conta.debitar(saque)
-        setSaldo(conta.saldoConta)
+    function debitar(){
+        let result = conta.debitar(Number(saque));
+        setAviso(result.erro);
+        setSaldo(result.saldo);
     }
 
 
@@ -20,9 +21,11 @@ export default function Debito(){
             <br></br>
             <Text>Insira quanto você quer sacar:</Text>
             <TextInput onChangeText={(saque) => setSaque(saque)}></TextInput>
-            <Button onPress={deb} title='Sacar'></Button>
+            <Button onPress={debitar} title='Sacar'></Button>
 
-            <Text>Saldo: {saldo}</Text>
+            <Text>O valor debitado será de: {saque}</Text>
+            <Text>O saldo agora é de {saldo}</Text>
+            <Text>{aviso}</Text>
         </View>
     )
 }

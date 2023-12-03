@@ -1,31 +1,46 @@
 export default class ContaBancaria{
-    saldoConta = 0
-    chequeEspecial = 2640
-
-    constructor(saldoConta, chequeEspecial){
-        this.saldoConta = saldoConta;
-        this.chequeEspecial = chequeEspecial;
+    extrato = [];
+    extratoDeposito = [];
+    extratoSaque = [];
+    saldo = 0;
+    chequeEspecial = 2640;
+    constructor(props){
     }
 
     debitar(debito){
-        if(this.saldoConta - debito < 0 && this.saldoConta - debito > this.chequeEspecial){
-            // LIMITE DE SAQUE INSUFICIENTE 
+        let erro = "";
+        if(this.saldo - debito < 0 && this.saldo - debito < -this.chequeEspecial){
+            erro = `Limite de saque insuficiente, seu saldo é de ${this.saldo}, você quer debitar ${debito}, e seu cheque especial é de ${this.chequeEspecial}, sendo insuficiente`;
+            return { erro:erro };
         }
-        else if(this.saldoConta - debito < 0 && this.saldoConta - debito <= this.chequeEspecial){
-            this.saldoConta = 0 - debito
-            this.chequeEspecial -= this.saldoConta
+        else if(this.saldo - debito < 0 && this.saldo - debito <= this.chequeEspecial){
+            let aux = this.saldo - debito;
+            this.chequeEspecial = this.chequeEspecial + aux;
+            this.saldo = -(2640 - this.chequeEspecial);
+            this.extrato.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais`});
+            this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:`foi usado ${-(aux)} reais`});
+            console.log(this.extrato);
+            console.log(this.saldo);
+            return { saldo:this.saldo };
         }
-        else{
-            this.saldoConta -= debito
-        }
+        this.saldo -= debito;
+        console.log(this.saldo);
+        this.extrato.push({operacao: "-", valor:debito});
+        this.extratoSaque.push({operacao: "-", valor:debito, chequeEspecial:"foi usado"});
+        console.log(this.extrato);
+        return { saldo:this.saldo } ;
     }
 
     depositar(deposito){
-        this.saldoConta += deposito
+        this.saldo += deposito;
+        this.extrato.push({operacao:"+", valor:deposito});
+        this.extratoDeposito.push({operacao:"+", valor:deposito})
+        console.log(this.extrato);
+        return this.saldo;
     }
 
-    chequeEspecial(){
-
+    extratoEspecial(){
+        
     }
 
 }
