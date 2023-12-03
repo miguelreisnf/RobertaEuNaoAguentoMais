@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { conta } from './Debito';
+
 export default function Principal({navigation}) {
-  const [saldo, setSaldo] = useState(0);
+  const [saldo, setSaldo] = useState(conta.getSaldo());
   return (
     <View style={styles.container}>
       <br></br>

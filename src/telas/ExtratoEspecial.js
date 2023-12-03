@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {View, Text} from 'react-native'
+import { conta } from './Debito';
 
 export default function ExtratoEspecial(){
     const [extratoDeposito, setExtratoDeposito] = useState([]);
@@ -8,10 +9,11 @@ export default function ExtratoEspecial(){
         <View>
             <Text>Extrato Especial, aqui você vê seus saques e depósitos organizados e ordenados</Text>
             <Text>Depósitos:</Text>
-            <br></br>
+            <br>{extratoDeposito}</br>
             <Text></Text>
             <br></br>
             <Text>Saques:</Text>
+            <Text>{extratoSaque}</Text>
         </View>
     )
 }
